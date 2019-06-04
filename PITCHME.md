@@ -325,9 +325,39 @@ What follows are the phase and process for each scenario we have covered.  These
 
 ---
 
-New Procedure
+New Stored Procedure
 
-@table[table-header table-tsv text-07](presentation/assets/tsv/1_NewStoredProcedure.txt)
+@table[table-header table-tsv text-08](presentation/assets/tsv/11_NewStoredProcedure.txt)
+
+---
+
+Add New Column to Procedure
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/12_NewColumn.txt)
+
+---
+
+Remove Column from Procedure
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/13_RemoveColumn.txt)
+
+---
+
+Change Input Parameter
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/14_ChangeInputParameter.txt)
+
+---
+
+Change Input Paramter -- Table Type
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/15_ChangeInputParameter_TableType.txt)
+
+---
+
+Refactoring a Procedure
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/16_RefactorProcedure.txt)
 
 ---
 
