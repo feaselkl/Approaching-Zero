@@ -325,17 +325,9 @@ What follows are the phase and process for each scenario we have covered.  These
 
 ---
 
-@snap[west span-25]
-
 New Procedure
 
-@snapend
-
-@snap[east span-75]
-
 @table[table-header table-tsv text-07](presentation/assets/tsv/1_NewStoredProcedure.txt)
-
-@snapend
 
 ---
 
