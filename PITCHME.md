@@ -333,7 +333,7 @@ New Procedure
 
 @snap[east span-75]
 
-@table[table-header table-tsv](presentation/assets/tsv/1_NewStoredProcedure.txt)
+@table[table-header table-tsv text-05](presentation/assets/tsv/1_NewStoredProcedure.txt)
 
 @snapend
 
