@@ -415,7 +415,7 @@ Add a Non-Nullable Column with a Default Constraint
 
 Backfill a New Column
 
-@table[table-header table-tsv text-07](presentation/assets/tsv/23_BackfillColumn.txt)
+@table[table-header table-tsv text-05](presentation/assets/tsv/23_BackfillColumn.txt)
 
 ---
 
@@ -439,7 +439,7 @@ Extend a VARCHAR Column
 
 Shrink a VARCHAR Column
 
-@table[table-header table-tsv text-07](presentation/assets/tsv/27_ShrinkVarcharColumn.txt)
+@table[table-header table-tsv text-05](presentation/assets/tsv/27_ShrinkVarcharColumn.txt)
 
 ---
 
