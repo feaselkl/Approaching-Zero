@@ -333,12 +333,12 @@ New Procedure
 
 @snap[east span-75]
 
-| Phase | Process |
-| ----- | ------- |
-| Database pre-release | |
-| Database release | Deploy new procedure |
-| Code release | Deploy calling code |
-| Database post-release | |
+|Phase|Process|
+|-----|-------|
+|Database pre-release| |
+|Database release|Deploy new procedure|
+|Code release|Deploy calling code|
+|Database post-release| |
 
 @snapend
 
