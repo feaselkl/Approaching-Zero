@@ -376,6 +376,79 @@ Refactoring a Procedure
 
 ---
 
+### Table Changes
+
+Scenarios covered:
+
+1. Add a nullable column
+2. Add a non-nullable column with a default constraint
+3. Backfill a new column
+4. Remove a column
+5. Remove a column with a constraint
+6. Extend VARCHAR column
+7. Shrink VARCHAR column
+8. Rename a table
+
+---?image=presentation/assets/background/demo.jpg&size=cover&opacity=20
+
+### Demo Time
+
+---
+
+### Table Recap
+
+What follows are the phase and process for each scenario we have covered.  These are here for your reference.
+
+---
+
+Add a Nullable Column
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/21_AddNullableColumn.txt)
+
+---
+
+Add a Non-Nullable Column with a Default Constraint
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/22_AddColumnWithConstraint.txt)
+
+---
+
+Backfill a New Column
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/23_BackfillColumn.txt)
+
+---
+
+Remove a Column
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/24_RemoveColumn.txt)
+
+---
+
+Remove a Column with a Constraint
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/25_RemoveColumnWithConstraint.txt)
+
+---
+
+Extend a VARCHAR Column
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/26_ExtendVarcharColumn.txt)
+
+---
+
+Shrink a VARCHAR Column
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/27_ShrinkVarcharColumn.txt)
+
+---
+
+Rename a Table
+
+@table[table-header table-tsv text-08](presentation/assets/tsv/28_RenameTable.txt)
+
+---
+
 @title[Constraint Changes]
 
 ## Agenda
