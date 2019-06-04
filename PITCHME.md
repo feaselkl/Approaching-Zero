@@ -327,37 +327,37 @@ What follows are the phase and process for each scenario we have covered.  These
 
 New Stored Procedure
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/11_NewStoredProcedure.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/11_NewStoredProcedure.txt)
 
 ---
 
 Add New Column to Procedure
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/12_NewColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/12_NewColumn.txt)
 
 ---
 
 Remove Column from Procedure
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/13_RemoveColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/13_RemoveColumn.txt)
 
 ---
 
 Change Input Parameter
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/14_ChangeInputParameter.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/14_ChangeInputParameter.txt)
 
 ---
 
 Change Input Paramter -- Table Type
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/15_ChangeInputParameter_TableType.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/15_ChangeInputParameter_TableType.txt)
 
 ---
 
 Refactoring a Procedure
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/16_RefactorProcedure.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/16_RefactorProcedure.txt)
 
 ---
 
@@ -403,49 +403,49 @@ What follows are the phase and process for each scenario we have covered.  These
 
 Add a Nullable Column
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/21_AddNullableColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/21_AddNullableColumn.txt)
 
 ---
 
 Add a Non-Nullable Column with a Default Constraint
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/22_AddColumnWithConstraint.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/22_AddColumnWithConstraint.txt)
 
 ---
 
 Backfill a New Column
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/23_BackfillColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/23_BackfillColumn.txt)
 
 ---
 
 Remove a Column
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/24_RemoveColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/24_RemoveColumn.txt)
 
 ---
 
 Remove a Column with a Constraint
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/25_RemoveColumnWithConstraint.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/25_RemoveColumnWithConstraint.txt)
 
 ---
 
 Extend a VARCHAR Column
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/26_ExtendVarcharColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/26_ExtendVarcharColumn.txt)
 
 ---
 
 Shrink a VARCHAR Column
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/27_ShrinkVarcharColumn.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/27_ShrinkVarcharColumn.txt)
 
 ---
 
 Rename a Table
 
-@table[table-header table-tsv text-08](presentation/assets/tsv/28_RenameTable.txt)
+@table[table-header table-tsv text-07](presentation/assets/tsv/28_RenameTable.txt)
 
 ---
 
