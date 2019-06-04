@@ -325,15 +325,6 @@ What follows are the phase and process for each scenario we have covered.  These
 
 ---
 
-|Phase|Process|
-|-----|-------|
-|Database pre-release| |
-|Database release|Deploy new procedure|
-|Code release|Deploy calling code|
-|Database post-release| |
-
----
-
 @snap[west span-25]
 
 New Procedure
@@ -342,6 +333,12 @@ New Procedure
 
 @snap[east span-75]
 
+|Phase|Process|
+|-----|-------|
+|Database pre-release| |
+|Database release|Deploy new procedure|
+|Code release|Deploy calling code|
+|Database post-release| |
 
 @snapend
 
