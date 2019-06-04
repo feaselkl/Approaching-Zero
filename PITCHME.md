@@ -6,7 +6,7 @@
 ### Minimizing Downtime During Deployments
 
 <a href="https://www.catallaxyservices.com">Kevin Feasel</a> (<a href="https://twitter.com/feaselkl">@feaselkl</a>)<br />
-<a href="https://csmore.info/on/fp">https://CSmore.info/on/fp</a>
+<a href="https://csmore.info/on/zdt">https://CSmore.info/on/zdt</a>
 
 ---
 
@@ -79,6 +79,8 @@ Most websites aren't like that anymore.  Instead, users expect 24/7 uptime.  For
 * Locks on resources
 * Persistent timeouts due to performance issues
 
+---
+
 ### Why I Don't Believe in Zero Downtime
 
 Table locks are downtime.  Thought experiment:  drop and rebuild the clustered columnstore index on a fact table and see if anyone complains.
@@ -89,11 +91,11 @@ Many operations take locks for short amounts of time.  With luck, nobody will no
 
 ### The Benefits of Minimizing Downtime
 
-For users, the biggest benefit of minimizing downtime is they can get their work done with fewer interruptions.
+**Users** can get their work done with fewer interruptions.
 
-For developers, we don't need to deploy at weird hours (3 AM on Wednesday).  We can also push smaller changes faster, giving end users fixes and improvements sooner.
+**Developers** can deploy smaller changes faster, giving end users fixes and improvements sooner.
 
-For administrators, we don't need to be up at odd hours waiting for things to break.  Deployment can happen when people are in the office and available.
+**Administrators** can deploy when people are in the office and available.
 
 ---
 
@@ -216,9 +218,9 @@ Database post-release can go on as long as needed and customers should not notic
 
 I will make three key assumptions.  These make deployment much easier and help reduce the risk of extended downtime due to a process failure.
 
-# You have code in source control
-# You have an automated release process
-# You have a continuous integration pipeline
+1. You have code in source control
+2. You have an automated release process
+3. You have a continuous integration pipeline
 
 ---
 
@@ -248,10 +250,10 @@ With an automated release process, keep deploying to lower environments--you wan
 
 In addition to the key assumptions, we have a few tools for making life easier.
 
-# Use Enterprise Edition
-# Use Read Committed Snapshot Isolation
-# Use Stored Procedures
-# Use Database Tests
+1. Use Enterprise Edition
+2. Use Read Committed Snapshot Isolation
+3. Use Stored Procedures
+4. Use Database Tests
 
 ---
 
@@ -304,12 +306,12 @@ tSQLt is the most popular database test library out there, but it could be as si
 
 Scenarios covered:
 
-# New stored procedure
-# Add new column to procedure
-# Remove column from procedure
-# Change input parameter
-# Change input parameter -- table type
-# Refactoring a procedure
+1. New stored procedure
+2. Add new column to procedure
+3. Remove column from procedure
+4. Change input parameter
+5. Change input parameter -- table type
+6. Refactoring a procedure
 
 ---?image=presentation/assets/background/demo.jpg&size=cover&opacity=20
 
@@ -323,13 +325,22 @@ What follows are the phase and process for each scenario we have covered.  These
 
 ---
 
-### New Procedure
+@snap[west span-25]
 
-|| Phase || Process ||
+New Procedure
+
+@snapend
+
+@snap[east span-75]
+
+| Phase | Process |
+| ----- | ------- |
 | Database pre-release | |
 | Database release | Deploy new procedure |
 | Code release | Deploy calling code |
 | Database post-release | |
+
+@snapend
 
 ---
 
