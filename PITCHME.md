@@ -333,12 +333,7 @@ New Procedure
 
 @snap[east span-75]
 
-|Phase|Process|
-|-----|-------|
-|Database pre-release| |
-|Database release|Deploy new procedure|
-|Code release|Deploy calling code|
-|Database post-release| |
+@table[table-header table-tsv](presentation/assets/tsv/1_NewStoredProcedure.txt)
 
 @snapend
 
