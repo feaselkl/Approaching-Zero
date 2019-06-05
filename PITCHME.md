@@ -327,37 +327,37 @@ Scenarios covered:
 
 What follows are the phase and process for each scenario we have covered.  These are here for your reference.
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 New Stored Procedure
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/11_NewStoredProcedure.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add New Column to Procedure
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/12_NewColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Remove Column from Procedure
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/13_RemoveColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Change Input Parameter
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/14_ChangeInputParameter.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Change Input Paramter -- Table Type
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/15_ChangeInputParameter_TableType.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Refactoring a Procedure
 
@@ -404,49 +404,49 @@ Scenarios covered:
 
 What follows are the phase and process for each scenario we have covered.  These are here for your reference.
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add a Nullable Column
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/21_AddNullableColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add a Non-Nullable Column with a Default Constraint
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/22_AddColumnWithConstraint.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Backfill a New Column
 
 @table[table-header table-tsv text-05](presentation/assets/tsv/23_BackfillColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Remove a Column
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/24_RemoveColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Remove a Column with a Constraint
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/25_RemoveColumnWithConstraint.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Extend a VARCHAR Column
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/26_ExtendVarcharColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Shrink a VARCHAR Column
 
 @table[table-header table-tsv text-05](presentation/assets/tsv/27_ShrinkVarcharColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Rename a Table
 
@@ -490,31 +490,31 @@ Scenarios covered:
 
 What follows are the phase and process for each scenario we have covered.  These are here for your reference.
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add a Non-Clustered Index
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/30_CreateIndex.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Drop a Non-Clustered Index
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/31_DropIndex.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add a Clustered Index
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/32_CreateClusteredIndex.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Change a Non-Primary Key Clustered Index 
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/33_ChangeNonPKClusteredIndex.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Separate Out a Primary Key + Clustered Index
 
@@ -557,25 +557,25 @@ Scenarios covered:
 
 What follows are the phase and process for each scenario we have covered.  These are here for your reference.
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add a Default Constraint
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/41_AddDefaultConstraint.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Change a Default Constraint
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/42_ChangeDefaultConstraint.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add a Unique Key Constraint
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/43_AddUniqueKeyConstraint.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add Other Constraints
 
@@ -617,19 +617,19 @@ Scenarios covered:
 
 What follows are the phase and process for each scenario we have covered.  These are here for your reference.
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Add an Identity Column to an Existing Table
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/51_AddIdentityColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Reseed an Identity Column
 
 @table[table-header table-tsv text-07](presentation/assets/tsv/52_ReseedIdentityColumn.txt)
 
----
+---?image=presentation/assets/background/storm-clouds.jpg&size=cover&opacity=20
 
 Change the Data Type of an Identity Column
 
