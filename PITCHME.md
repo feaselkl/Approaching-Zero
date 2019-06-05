@@ -56,9 +56,10 @@ In reality, that is impossible.  We instead settle for **approaching** zero.
 3. Making Life Simpler
 4. Stored Procedure Changes
 5. Table Changes
-6. Constraint Changes
-7. Identity Changes
-8. A Case Study
+6. Index Changes
+7. Constraint Changes
+8. Identity Changes
+9. A Case Study
 
 ---
 
@@ -108,9 +109,10 @@ Many operations take locks for short amounts of time.  With luck, nobody will no
 3. Making Life Simpler
 4. Stored Procedure Changes
 5. Table Changes
-6. Constraint Changes
-7. Identity Changes
-8. A Case Study
+6. Index Changes
+7. Constraint Changes
+8. Identity Changes
+9. A Case Study
 
 ---
 
@@ -153,7 +155,7 @@ We will use the blue-green deployment model today.  We will show without loss of
 
 ### Before the Release
 
-TODO:  all-blue image
+![Phase 1:  all old code.](presentation/assets/image/code_phase1_blue.png)
 
 We have "old" code running on all servers.
 
@@ -161,7 +163,7 @@ We have "old" code running on all servers.
 
 ### Servers Down
 
-TODO:  blue-grey
+![Phase 2:  old code and some servers down.](presentation/assets/image/code_phase2_bluegrey.png)
 
 We still have "old" code running on servers but some have gone down, leading to a potentially degraded experience.
 
@@ -169,7 +171,7 @@ We still have "old" code running on servers but some have gone down, leading to 
 
 ### New Code
 
-TODO:  blue-green
+![Phase 3:  some old code and some new code running concurrently.](presentation/assets/image/code_phase3_bluegreen.png)
 
 During this phase, we have old and new application code.  We need to support **both** at the same time.
 
@@ -177,7 +179,7 @@ During this phase, we have old and new application code.  We need to support **b
 
 ### More Servers Down
 
-TODO:  grey-green
+![Phase 4:  some servers down and some new code.](presentation/assets/image/code_phase4_greygreen.png)
 
 We have only new code but a potentially degraded experience.
 
@@ -185,7 +187,7 @@ We have only new code but a potentially degraded experience.
 
 ### All Servers Up
 
-TODO:  all-green image
+![Phase 5:  all new code.](presentation/assets/image/code_phase5_green.png)
 
 Servers are back to normal, running new code.
 
@@ -208,9 +210,10 @@ Database post-release can go on as long as needed and customers should not notic
 3. **Making Life Simpler**
 4. Stored Procedure Changes
 5. Table Changes
-6. Constraint Changes
-7. Identity Changes
-8. A Case Study
+6. Index Changes
+7. Constraint Changes
+8. Identity Changes
+9. A Case Study
 
 ---
 
@@ -296,9 +299,10 @@ tSQLt is the most popular database test library out there, but it could be as si
 3. Making Life Simpler
 4. **Stored Procedure Changes**
 5. Table Changes
-6. Constraint Changes
-7. Identity Changes
-8. A Case Study
+6. Index Changes
+7. Constraint Changes
+8. Identity Changes
+9. A Case Study
 
 ---
 
@@ -370,9 +374,10 @@ Refactoring a Procedure
 3. Making Life Simpler
 4. Stored Procedure Changes
 5. **Table Changes**
-6. Constraint Changes
-7. Identity Changes
-8. A Case Study
+6. Index Changes
+7. Constraint Changes
+8. Identity Changes
+9. A Case Study
 
 ---
 
@@ -449,6 +454,74 @@ Rename a Table
 
 ---
 
+@title[Index Changes]
+
+## Agenda
+
+1. Our Enemy the Downtime
+2. The Flow
+3. Making Life Simpler
+4. Stored Procedure Changes
+5. Table Changes
+6. **Index Changes**
+7. Constraint Changes
+8. Identity Changes
+9. A Case Study
+
+---
+
+### Index Changes
+
+Scenarios covered:
+
+1. Add a non-clustered index
+2. Drop a non-clustered index
+3. Create a clustered index
+4. Change a clustered index which is not the primary key
+5. Separate out a combination primary key and clustered index
+
+---?image=presentation/assets/background/demo.jpg&size=cover&opacity=20
+
+### Demo Time
+
+---
+
+### Index Recap
+
+What follows are the phase and process for each scenario we have covered.  These are here for your reference.
+
+---
+
+Add a Non-Clustered Index
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/30_CreateIndex.txt)
+
+---
+
+Drop a Non-Clustered Index
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/31_DropIndex.txt)
+
+---
+
+Add a Clustered Index
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/32_CreateClusteredIndex.txt)
+
+---
+
+Change a Non-Primary Key Clustered Index 
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/33_ChangeNonPKClusteredIndex.txt)
+
+---
+
+Separate Out a Primary Key + Clustered Index
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/34_SeparatePKAndCI.txt)
+
+---
+
 @title[Constraint Changes]
 
 ## Agenda
@@ -458,9 +531,55 @@ Rename a Table
 3. Making Life Simpler
 4. Stored Procedure Changes
 5. Table Changes
-6. **Constraint Changes**
-7. Identity Changes
-8. A Case Study
+6. Index Changes
+7. **Constraint Changes**
+8. Identity Changes
+9. A Case Study
+
+---
+
+### Constraint Changes
+
+Scenarios covered:
+
+1. Add a default constraint
+2. Change a default constraint
+3. Add a unique key constraint
+4. Add other constraints
+
+---?image=presentation/assets/background/demo.jpg&size=cover&opacity=20
+
+### Demo Time
+
+---
+
+### Constraints Recap
+
+What follows are the phase and process for each scenario we have covered.  These are here for your reference.
+
+---
+
+Add a Default Constraint
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/41_AddDefaultConstraint.txt)
+
+---
+
+Change a Default Constraint
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/42_ChangeDefaultConstraint.txt)
+
+---
+
+Add a Unique Key Constraint
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/43_AddUniqueKeyConstraint.txt)
+
+---
+
+Add Other Constraints
+
+@table[table-header table-tsv text-05](presentation/assets/tsv/44_AddOtherConstraints.txt)
 
 ---
 
@@ -473,9 +592,48 @@ Rename a Table
 3. Making Life Simpler
 4. Stored Procedure Changes
 5. Table Changes
-6. Constraint Changes
-7. **Identity Changes**
-8. A Case Study
+6. Index Changes
+7. Constraint Changes
+8. **Identity Changes**
+9. A Case Study
+
+---
+
+### Identity Changes
+
+Scenarios covered:
+
+1. Add an identity column to an existing table
+2. Reseed an identity column
+3. Change the data type of an identity column
+
+---?image=presentation/assets/background/demo.jpg&size=cover&opacity=20
+
+### Demo Time
+
+---
+
+### Identity Recap
+
+What follows are the phase and process for each scenario we have covered.  These are here for your reference.
+
+---
+
+Add an Identity Column to an Existing Table
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/51_AddIdentityColumn.txt)
+
+---
+
+Reseed an Identity Column
+
+@table[table-header table-tsv text-07](presentation/assets/tsv/52_ReseedIdentityColumn.txt)
+
+---
+
+Change the Data Type of an Identity Column
+
+@table[table-header table-tsv text-05](presentation/assets/tsv/53_ChangeIdentityColumnType.txt)
 
 ---
 
@@ -488,9 +646,156 @@ Rename a Table
 3. Making Life Simpler
 4. Stored Procedure Changes
 5. Table Changes
-6. Constraint Changes
-7. Identity Changes
-8. **A Case Study**
+6. Index Changes
+7. Constraint Changes
+8. Identity Changes
+9. **A Case Study**
+
+---
+
+### A Case Study
+
+As a Database Engineer, I was responsible for approximately 200 tables and 800 stored procedures.
+
+Most of these tables had a column called `ClientID` as part of the primary key.  The only problem?  It needs to be called `ProfileID`.  Which means updating 150+ tables and 700+ stored procedures.  Without extended downtime.
+
+---
+
+### The Scope
+
+* Rename `ClientID` to `ProfileID` on 150 tables, including constraint and index names.
+* Drop 150 unused procedures and 20 unused tables.
+* Rename `ClientID` to `ProfileID` on 550+ procedures.  And refactor while we're in there.
+* Update SSIS packages to use `ProfileID` instead of `ClientID`.
+* Convert ad hoc queries in code to stored procedures and make them use `ProfileID`.
+
+---
+
+![Phase 1:  all ClientID references.](presentation/assets/image/phase-1-starting.png)
+
+---
+
+### Pre-Pre-Release (Phase 1)
+
+* Begin reformatting and refactoring procedures.
+* Look for unused procedures.  Search in plan and procedure cache, code base, SQL Agent jobs, SSIS packages, metadata tables, etc.  Eliminate broken objects.
+* Create lots and lots of database tests.
+
+---
+
+### Pre-Release Phase
+
+* Add `ProfileID` as nullable INT on each table with `ClientID`.
+
+---
+
+### Database Release (Phase 2a)
+
+* Release temporary procedures which take `@ClientID` and `@ProfileID` as parameters.  
+* Scoop out logic from app-level procedures and put into temp procedures.  Run `ISNULL(@ProfileID, @ClientID)` checks on these.
+* Turn app-level procedures into shells which call temp procedures.
+
+---
+
+![Phase 2a:  ProfileID added as a column.](presentation/assets/image/phase-2a-add-profileid.png)
+
+---
+
+### Database Release (Phase 2b)
+
+Change references in views and functions to return `ISNULL(ProfileID, ClientID)` instead of `ClientID`.
+
+---
+
+![Phase 2b:  have views include ProfileID references.](presentation/assets/image/phase-2b-modify-views.png)
+
+---
+
+### Database Release (Phase 2c)
+
+Update non-application SQL code to run `ISNULL(ProfileID, ClientID)` checks.  This includes:
+
+* SQL Agent jobs
+* Triggers
+* Non-application stored procedures
+* SSIS packages
+* Other processes
+
+---
+
+![Phase 2c:  update non-application code to include ProfileID references.](presentation/assets/image/phase-2c-update-non-code.png)
+
+---
+
+### Database Release (Phase 3)
+
+Swap `ProfileID` and `ClientID`:
+
+* Rename `ProfileID` to `ProfileID2`
+* Rename `ClientID` to `ProfileID`
+* Add new `ClientID` nullable integer
+* Drop `ProfileID2`
+
+Then rename all constraints and indexes using `sp_rename`.
+
+---
+
+![Phase 3:  swap ProfileID and ClientID.](presentation/assets/image/phase-3-swap-profileid.png)
+
+---
+
+### Database Post-Release (Phase 4)
+
+Deploy final versions of "temp" application code procedures:  replace `@ClientID` with `@ProfileID` in app procedures and change `ISNULL(ProfileID, ClientID)` to `ProfileID`.
+
+Return `ProfileID` column on procedures as well as `ProfileID AS ClientID`.
+
+---
+
+![Phase 4:  add final versions of new procedures.](presentation/assets/image/phase-4-new-procedures.png)
+
+---
+
+### Database Post-Release (Phase 5)
+
+Update non-application SQL code to change `ISNULL(ProfileID, ClientID)` to `ProfileID`.
+
+---
+
+![Phase 5:  remove ClientID references from non-app code.](presentation/assets/image/phase-5-update-code.png)
+
+---
+
+### Database Post-Release (Phase 6)
+
+Update views and functions to change `ISNULL(ProfileID, ClientID)` checks to `ProfileID`.
+
+Include `ProfileID` and `ProfileID AS ClientID` columns in result sets.
+
+---
+
+![Phase 6:  remove ClientID references from views and functions.](presentation/assets/image/phase-6-updated-views-and-functions.png)
+
+---
+
+### Post- Database Post-Release (Phase 7)
+
+* Drop the empty ClientID column on each table.
+* Deprecate obsolete objects.
+
+---
+
+![Phase 7:  drop ClientID columns.](presentation/assets/image/phase-7-drop-clientid.png)
+
+---
+
+### Post- Database Post-Release (Phase 8)
+
+Update application code over time to call new procedures instead of old code-facing procedures and change `ClientID` code references to `ProfileID`.  Deprecate old procedures over time.
+
+---
+
+![Phase 8:  clean up the database over time.  Lots of time.](presentation/assets/image/phase-8-cleanup.png)
 
 ---
 
@@ -498,12 +803,14 @@ Rename a Table
 
 ### Wrapping Up
 
-Functional programming has its own mindset which can take time getting used to, especially if your background is as an object-oriented developer.  There are significant benefits to building up your FP skills, especially if you are interested in the Data Engineering space, where languages like Scala dominate.
+"Zero" downtime database deployments aren't for every company.  If you have the ability to take downtime windows, your deployments are significantly easier.
+
+Still, if you do need these tools, it is good to know what you can safely do without blocking your customers.
 
 ---
 
 ### Wrapping Up
 
-To learn more, go here:  <a href="https://csmore.info/on/fp">https://CSmore.info/on/fp</a>
+To learn more, go here:  <a href="https://csmore.info/on/zdt">https://CSmore.info/on/zdt</a>
 
 And for help, contact me:  <a href="mailto:feasel@catallaxyservices.com">feasel@catallaxyservices.com</a> | <a href="https://www.twitter.com/feaselkl">@feaselkl</a>
