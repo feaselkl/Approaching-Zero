@@ -69,7 +69,7 @@ If your website has office hours, downtime is no problem:  you deploy during off
 
 Most websites aren't like that anymore.  Instead, users expect 24/7 uptime.  For deployments, users can accept occasional degraded experiences (especially around performance) but otherwise want to get on with their lives.  We need an approach to keep them happy while pushing out code changes at a reasonable time.
 
----?image=presentation/assets/background/muai-thai.jpg&size=cover&opacity=20
+---?image=presentation/assets/background/muay-thai.jpg&size=cover&opacity=20
 
 ### Know Your Enemy:  Downtime
 
@@ -191,7 +191,7 @@ We have only new code but a potentially degraded experience.
 
 Servers are back to normal, running new code.
 
----?image=presentation/assets/background/blue-package.jpg&size=cover&opacity=20
+---?image=presentation/assets/background/fireworks.jpg&size=cover&opacity=20
 
 ### Database Post-Release
 
