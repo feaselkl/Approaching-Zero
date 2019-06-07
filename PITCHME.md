@@ -37,7 +37,7 @@
 </div>
 @snapend
 
----
+---?image=presentation/assets/background/motivation.jpg&size=cover&opacity=20
 
 ### Motivation
 
@@ -61,7 +61,7 @@ In reality, that is impossible.  We instead settle for **approaching** zero.
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/time.jpg&size=cover&opacity=20
 
 ### Know Your Enemy:  Downtime
 
@@ -69,7 +69,7 @@ If your website has office hours, downtime is no problem:  you deploy during off
 
 Most websites aren't like that anymore.  Instead, users expect 24/7 uptime.  For deployments, users can accept occasional degraded experiences (especially around performance) but otherwise want to get on with their lives.  We need an approach to keep them happy while pushing out code changes at a reasonable time.
 
----
+---?image=presentation/assets/background/muai-thai.jpg&size=cover&opacity=20
 
 ### Know Your Enemy:  Downtime
 
@@ -80,7 +80,7 @@ Most websites aren't like that anymore.  Instead, users expect 24/7 uptime.  For
 * Locks on resources
 * Persistent timeouts due to performance issues
 
----
+---?image=presentation/assets/background/spiral-staircase.jpg&size=cover&opacity=20
 
 ### Why I Don't Believe in Zero Downtime
 
@@ -88,7 +88,7 @@ Table locks are downtime.  Thought experiment:  drop and rebuild the clustered c
 
 Many operations take locks for short amounts of time.  With luck, nobody will notice these locks, but there are small batches of potential downtime here.  Users tend to be forgiving regarding these--it's easy enough to say "the network must be slow today"!
 
----
+---?image=presentation/assets/background/handshake.jpg&size=cover&opacity=20
 
 ### The Benefits of Minimizing Downtime
 
@@ -114,7 +114,7 @@ Many operations take locks for short amounts of time.  With luck, nobody will no
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/blue-package.jpg&size=cover&opacity=20
 
 ### The Flow
 
@@ -125,7 +125,7 @@ Our flow will be a modified **blue-green deployment** method.  We will have the 
 3. Application Release
 4. Database Post-Release
 
----
+---?image=presentation/assets/background/fishing.jpg&size=cover&opacity=20
 
 ### Database Pre-Release
 
@@ -137,7 +137,7 @@ Pre-release starts whenever you are ready for it.  Good things to do during pre-
 
 Users should not notice that you are in database pre-release.
 
----
+---?image=presentation/assets/background/rollercoaster.jpg&size=cover&opacity=20
 
 ### Database Release
 
@@ -191,7 +191,7 @@ We have only new code but a potentially degraded experience.
 
 Servers are back to normal, running new code.
 
----
+---?image=presentation/assets/background/blue-package.jpg&size=cover&opacity=20
 
 ### Database Post-Release
 
@@ -215,7 +215,7 @@ Database post-release can go on as long as needed and customers should not notic
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/engineering.jpg&size=cover&opacity=20
 
 ### Key Assumptions
 
@@ -225,7 +225,7 @@ I will make three key assumptions.  These make deployment much easier and help r
 2. You have an automated release process
 3. You have a continuous integration pipeline
 
----
+---?image=presentation/assets/background/records.jpg&size=cover&opacity=20
 
 ### Source Control
 
@@ -233,7 +233,7 @@ Source control is not mandatory but it is **really** helpful.  Source control is
 
 Git is the most popular source control system, but use whatever you want.
 
----
+---?image=presentation/assets/background/traffic-light.jpg&size=cover&opacity=20
 
 ### Automated Release Process
 
@@ -241,13 +241,13 @@ Git is the most popular source control system, but use whatever you want.
 
 Automated release processes ensure all scripts go and that each release is consistent.  Humans make a lot of replication mistakes; let computers do that work.
 
----
+---?image=presentation/assets/background/intersection.jpg&size=cover&opacity=20
 
 ### Continuous Integration Pipeline
 
 With an automated release process, keep deploying to lower environments--you want as many tests of your deployment scripts as possible.  That way you won't have any nasty downtime-related surprises going to production, or errors if you need to re-run scripts.
 
----
+---?image=presentation/assets/background/legend.jpg&size=cover&opacity=20
 
 ### Simplification Measures
 
@@ -258,13 +258,13 @@ In addition to the key assumptions, we have a few tools for making life easier.
 3. Use Stored Procedures
 4. Use Database Tests
 
----
+---?image=presentation/assets/background/skyline.jpg&size=cover&opacity=20
 
 ### Use Enterprise Edition
 
 Enterprise Edition allows you to do things you cannot do in Standard Edition, such as rebuilding indexes online and partitioning tables.  These can make deployments easier.
 
----
+---?image=presentation/assets/background/hardware.jpg&size=cover&opacity=20
 
 ### Use RCSI
 
@@ -272,7 +272,7 @@ Read Committed Snapshot Isolation limits the amount of blocking on tables.  If y
 
 RCSI does increase tempdb usage, sometimes considerably.  Keep that in mind if you haven't turned it on yet.
 
----
+---?image=presentation/assets/background/lab.jpg&size=cover&opacity=20
 
 ### Use Stored Procedures
 
@@ -280,7 +280,7 @@ Stored procedures act as an interface between your application code and your dat
 
 Stored procedures also let you explicitly see backward compatibility:  you can (usually) know which of ProcedureV4 and ProcedureV3 is newer.
 
----
+---?image=presentation/assets/background/magnifying-glass.jpg&size=cover&opacity=20
 
 ### Use Database Tests
 
@@ -304,7 +304,7 @@ tSQLt is the most popular database test library out there, but it could be as si
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/water-rocks.jpg&size=cover&opacity=20
 
 ### Stored Procedure Changes
 
@@ -379,7 +379,7 @@ Refactoring a Procedure
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/table-with-chalkboard.jpg&size=cover&opacity=20
 
 ### Table Changes
 
@@ -468,7 +468,7 @@ Rename a Table
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/arrow.jpg&size=cover&opacity=20
 
 ### Index Changes
 
@@ -536,7 +536,7 @@ Separate Out a Primary Key + Clustered Index
 8. Identity Changes
 9. A Case Study
 
----
+---?image=presentation/assets/background/chain.jpg&size=cover&opacity=20
 
 ### Constraint Changes
 
@@ -597,7 +597,7 @@ Add Other Constraints
 8. **Identity Changes**
 9. A Case Study
 
----
+---?image=presentation/assets/background/eye.jpg&size=cover&opacity=20
 
 ### Identity Changes
 
@@ -651,7 +651,7 @@ Change the Data Type of an Identity Column
 8. Identity Changes
 9. **A Case Study**
 
----
+---?image=presentation/assets/background/easel.jpg&size=cover&opacity=20
 
 ### A Case Study
 
@@ -659,7 +659,7 @@ As a Database Engineer, I was responsible for approximately 200 tables and 800 s
 
 Most of these tables had a column called `ClientID` as part of the primary key.  The only problem?  It needs to be called `ProfileID`.  Which means updating 150+ tables and 700+ stored procedures.  Without extended downtime.
 
----
+---?image=presentation/assets/background/looking-glass.jpg&size=cover&opacity=20
 
 ### The Scope
 
@@ -673,7 +673,7 @@ Most of these tables had a column called `ClientID` as part of the primary key. 
 
 ![Phase 1:  all ClientID references.](presentation/assets/image/phase-1-starting.png)
 
----
+---?image=presentation/assets/background/junk.jpg&size=cover&opacity=20
 
 ### Pre-Pre-Release (Phase 1)
 
@@ -681,13 +681,13 @@ Most of these tables had a column called `ClientID` as part of the primary key. 
 * Look for unused procedures.  Search in plan and procedure cache, code base, SQL Agent jobs, SSIS packages, metadata tables, etc.  Eliminate broken objects.
 * Create lots and lots of database tests.
 
----
+---?image=presentation/assets/background/cluster.jpg&size=cover&opacity=20
 
 ### Pre-Release Phase
 
 * Add `ProfileID` as nullable INT on each table with `ClientID`.
 
----
+---?image=presentation/assets/background/nesting-pots.jpg&size=cover&opacity=20
 
 ### Database Release (Phase 2a)
 
@@ -699,7 +699,7 @@ Most of these tables had a column called `ClientID` as part of the primary key. 
 
 ![Phase 2a:  ProfileID added as a column.](presentation/assets/image/phase-2a-add-profileid.png)
 
----
+---?image=presentation/assets/background/connections.jpg&size=cover&opacity=20
 
 ### Database Release (Phase 2b)
 
@@ -709,7 +709,7 @@ Change references in views and functions to return `ISNULL(ProfileID, ClientID)`
 
 ![Phase 2b:  have views include ProfileID references.](presentation/assets/image/phase-2b-modify-views.png)
 
----
+---?image=presentation/assets/background/greenscreen.jpg&size=cover&opacity=20
 
 ### Database Release (Phase 2c)
 
@@ -725,7 +725,7 @@ Update non-application SQL code to run `ISNULL(ProfileID, ClientID)` checks.  Th
 
 ![Phase 2c:  update non-application code to include ProfileID references.](presentation/assets/image/phase-2c-update-non-code.png)
 
----
+---?image=presentation/assets/background/telephones.jpg&size=cover&opacity=20
 
 ### Database Release (Phase 3)
 
@@ -742,7 +742,7 @@ Then rename all constraints and indexes using `sp_rename`.
 
 ![Phase 3:  swap ProfileID and ClientID.](presentation/assets/image/phase-3-swap-profileid.png)
 
----
+---?image=presentation/assets/background/lego.jpg&size=cover&opacity=20
 
 ### Database Post-Release (Phase 4)
 
@@ -754,7 +754,7 @@ Return `ProfileID` column on procedures as well as `ProfileID AS ClientID`.
 
 ![Phase 4:  add final versions of new procedures.](presentation/assets/image/phase-4-new-procedures.png)
 
----
+---?image=presentation/assets/background/flexible.jpg&size=cover&opacity=20
 
 ### Database Post-Release (Phase 5)
 
@@ -764,7 +764,7 @@ Update non-application SQL code to change `ISNULL(ProfileID, ClientID)` to `Prof
 
 ![Phase 5:  remove ClientID references from non-app code.](presentation/assets/image/phase-5-update-code.png)
 
----
+---?image=presentation/assets/background/flow.jpg&size=cover&opacity=20
 
 ### Database Post-Release (Phase 6)
 
@@ -776,7 +776,7 @@ Include `ProfileID` and `ProfileID AS ClientID` columns in result sets.
 
 ![Phase 6:  remove ClientID references from views and functions.](presentation/assets/image/phase-6-updated-views-and-functions.png)
 
----
+---?image=presentation/assets/background/excavator.jpg&size=cover&opacity=20
 
 ### Post- Database Post-Release (Phase 7)
 
@@ -787,7 +787,7 @@ Include `ProfileID` and `ProfileID AS ClientID` columns in result sets.
 
 ![Phase 7:  drop ClientID columns.](presentation/assets/image/phase-7-drop-clientid.png)
 
----
+---?image=presentation/assets/background/growth.jpg&size=cover&opacity=20
 
 ### Post- Database Post-Release (Phase 8)
 
@@ -797,7 +797,7 @@ Update application code over time to call new procedures instead of old code-fac
 
 ![Phase 8:  clean up the database over time.  Lots of time.](presentation/assets/image/phase-8-cleanup.png)
 
----
+---?image=presentation/assets/background/wrappingup.jpg&size=cover&opacity=20
 
 @title[Wrapping Up]
 
