@@ -13,7 +13,7 @@ SELECT
 	lt.Id,
 	lt.SomeColumn,
 	lt.SomeOtherColumn
-FROM dbo.LargeTable lt;');
+FROM dbo.TestLargeTable lt;');
 COMMIT TRANSACTION
 
 -- Alter and deploy any procedures which call dbo.LargeTable.

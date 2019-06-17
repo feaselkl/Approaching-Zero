@@ -13,6 +13,5 @@ IF EXISTS
 )
 BEGIN
 	ALTER TABLE dbo.LargeTable DROP COLUMN SomeNullableColumn;
-	ALTER TABLE dbo.LargeTable DROP COLUMN SomeNotNullableColumn;
 END
 GO
