@@ -2,7 +2,7 @@ USE ZDT
 GO
 -- Change a default constraint:  drop and recreate
 
--- DATABASE PRE-RELEASE PHASE
+-- DATABASE RELEASE PHASE
 IF NOT EXISTS
 (
 	SELECT 1

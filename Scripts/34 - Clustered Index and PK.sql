@@ -3,7 +3,7 @@ GO
 -- Clustered index is also the primary key
 
 -- DATABASE PRE-RELEASE PHASE
--- This transaction should be very fast.
+-- This transaction "should be" very fast...but it locks and can take some time.
 BEGIN TRANSACTION
 ALTER TABLE dbo.LargeTable DROP CONSTRAINT PK_LargeTable;
 ALTER TABLE dbo.LargeTable ADD CONSTRAINT [PK_LargeTable] PRIMARY KEY NONCLUSTERED(Id);
