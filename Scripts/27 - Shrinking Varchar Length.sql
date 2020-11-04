@@ -22,7 +22,7 @@ BEGIN
 END
 GO
 
--- For each record, update SomeNonDefaultColumn to be whatever it should be.
+-- For each record, update SomeOtherColumn2 to be whatever it should be.
 -- Note that we want to do this in batches.  In this case, I'll create a supporting index.
 -- We can create this index online because we're using Developer/Enterprise Edition.  With Standard Edition, no dice.
 IF NOT EXISTS

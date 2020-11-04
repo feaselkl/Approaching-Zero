@@ -2,7 +2,7 @@ USE ZDT
 GO
 -- Remove a column with a constraint
 
--- DATABASE RELEASE PHASE
+-- DATABASE POST-RELEASE PHASE
 IF EXISTS
 (
 	SELECT 1

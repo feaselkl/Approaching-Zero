@@ -15,7 +15,7 @@ docker pull docker.io/feaselkl/presentations:approaching-zero-db
 docker run --name approaching-zero-db -p 51433:1433 docker.io/feaselkl/presentations:approaching-zero-db
 ```
 
-From there, connect to `localhost,51433` from SQL Server Management Studio or Azure Data Studio and start running the Scripts in the `Scripts` directory from `10 - New Stored Procedure.sql`.
+From there, connect to `localhost,51433` from SQL Server Management Studio or Azure Data Studio using the username `sa` and the password `SomeBadP@ssword3` and start running the Scripts in the `Scripts` directory from `10 - New Stored Procedure.sql`.
 
 At the end, you will not need to run script `99 - Cleanup.sql` because you can stop and delete the container:
 
