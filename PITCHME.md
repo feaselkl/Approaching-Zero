@@ -12,30 +12,26 @@
 
 @title[Who Am I?]
 
-@div[left-60]
+[drag=60 100, drop=0 0]
 <table>
-	<tr>
-		<td><a href="https://csmore.info"><img src="https://www.catallaxyservices.com/media/Logo.png" height="133" width="119" /></a></td>
-		<td><a href="https://csmore.info">Catallaxy Services</a></td>
-	</tr>
-	<tr>
-		<td><a href="https://curatedsql.com"><img src="https://www.catallaxyservices.com/media/CuratedSQLLogo.png" height="133" width="119" /></a></td>
-		<td><a href="https://curatedsql.com">Curated SQL</a></td>
-	</tr>
-	<tr>
-		<td><a href="https://www.apress.com/us/book/9781484254608"><img src="https://www.catallaxyservices.com/media/PolyBaseRevealed.png" height="153" width="107" /></a></td>
-		<td><a href="https://www.apress.com/us/book/9781484254608">PolyBase Revealed</a></td>
-	</tr>
+<tr>
+<td><a href="https://csmore.info"><img src="https://www.catallaxyservices.com/media/Logo.png" height="133" width="119" /></a></td>
+<td><a href="https://csmore.info">Catallaxy Services</a></td>
+</tr>
+<tr>
+<td><a href="https://curatedsql.com"><img src="https://www.catallaxyservices.com/media/CuratedSQLLogo.png" height="133" width="119" /></a></td>
+<td><a href="https://curatedsql.com">Curated SQL</a></td>
+</tr>
+<tr>
+<td><a href="https://www.apress.com/us/book/9781484254608"><img src="https://www.catallaxyservices.com/media/PolyBaseRevealed.png" height="153" width="107" /></a></td>
+<td><a href="https://www.apress.com/us/book/9781484254608">PolyBase Revealed</a></td>
+</tr>
 </table>
-@divend
 
-@div[right-40]
-	<br /><br />
-	<a href="https://www.twitter.com/feaselkl"><img src="https://www.catallaxyservices.com/media/HeadShot.jpg" height="358" width="315" /></a>
-	<br />
-	<a href="https://www.twitter.com/feaselkl">@feaselkl</a>
-</div>
-@divend
+[drag=40 100, drop=60 0]
+![Kevin Feasel](https://www.catallaxyservices.com/media/HeadShot.jpg)
+
+[@feaselkl](https://www.twitter.com/feaselkl)
 
 ---?image=presentation/assets/background/motivation.jpg&size=cover&opacity=20
 
@@ -71,9 +67,14 @@ Most websites aren't like that anymore.  Instead, users expect 24/7 uptime.  For
 
 ---?image=presentation/assets/background/muay-thai.jpg&size=cover&opacity=20
 
+[drag=100 15, drop=0 0]
 ### Know Your Enemy:  Downtime
 
-**Downtime** is any time users are unable to access the resources they need in your product.  Reasons for downtime:
+[drag=30 80, drop=5 0]
+**Downtime** is any time users are unable to access the resources they need in your product.
+
+[drag=60 80, drop=40 15, animate=fadein ]
+Reasons for downtime:
 * Hardware failures
 * Application down due to deployment
 * Network / routing issues
@@ -810,7 +811,20 @@ Still, if you do need these tools, it is good to know what you can safely do wit
 ---
 
 ### Wrapping Up
-
-To learn more, go here:  <a href="https://csmore.info/on/zdt">https://CSmore.info/on/zdt</a>
-
-And for help, contact me:  <a href="mailto:feasel@catallaxyservices.com">feasel@catallaxyservices.com</a> | <a href="https://www.twitter.com/feaselkl">@feaselkl</a>
+<p>
+	To learn more, go here:
+	<br />
+	<a href="https://csmore.info/on/zdt">https://CSmore.info/on/zdt</a>
+</p>
+<br />
+<p>
+	And for help, contact me:
+	<br />
+	<a href="mailto:feasel@catallaxyservices.com">feasel@catallaxyservices.com</a> | <a href="https://www.twitter.com/feaselkl">@feaselkl</a>
+</p>
+<br />
+<p>
+	Catallaxy Services consulting:
+	<br />
+	<a href="https://csmore.info/contact">https://CSmore.info/on/contact</a>
+</p>
