@@ -1,0 +1,1142 @@
+<!doctype html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+		<title>Catallaxy Services | Approaching Zero</title>
+
+		<link rel="stylesheet" href="../reveal.js/dist/reset.css">
+		<link rel="stylesheet" href="../reveal.js/dist/reveal.css">
+		<link rel="stylesheet" href="../reveal.js/dist/theme/black.css" id="theme">
+		<link rel="stylesheet" href="../WebsiteAssets/mods.css">
+
+		<!-- Theme used for syntax highlighted code -->
+		<link rel="stylesheet" href="../reveal.js/plugin/highlight/monokai.css" id="highlight-theme">
+	</head>
+	<body>
+		<div class="reveal">
+			<div class="slides">
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h2>Approaching Zero</h2>
+					<h3>Minimizing Downtime During Deployments</h3>
+					
+					<a href="https://www.catallaxyservices.com">Kevin Feasel</a> (<a href="https://twitter.com/feaselkl">@feaselkl</a>)<br />
+					<a href="https://csmore.info/on/zdt">https://csmore.info/on/zdt</a>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Who Am I?  What Am I Doing Here?</h3>
+					<div class="container">
+						<div class="col">
+							<table class="whoami">
+								<tr>
+									<td><a href="https://csmore.info"><img src="../WebsiteAssets/Logo.png" height="100" /></a></td>
+									<td nowrap><a href="https://csmore.info">Catallaxy Services</a></td>
+								</tr>
+								<tr>
+									<td><a href="https://curatedsql.com"><img src="../WebsiteAssets/CuratedSQLLogo.png" height="100" /></a></td>
+									<td nowrap><a href="https://curatedsql.com">Curated SQL</a></td>
+								</tr>
+								<tr>
+									<td><a href="https://www.apress.com/us/book/9781484254608"><img src="../WebsiteAssets/PolyBaseRevealed.png" height="120" /></a></td>
+									<td nowrap><a href="https://www.apress.com/us/book/9781484254608">PolyBase Revealed</a></td>
+								</tr>
+							</table>
+						</div>
+						<div class="col">
+							<a href="http://www.twitter.com/feaselkl"><img src="../WebsiteAssets/HeadShot.jpg" height="358" width="315" /></a>
+							<br />
+							<a href="http://www.twitter.com/feaselkl">@feaselkl</a>
+						</div>					
+					</div>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/motivation.jpg" data-background-opacity="0.2">
+					<h3>Motivation</h3>
+					
+					<p>The goal of this talk is to minimize downtime due to application deployments.  Ideally, we would want to get this down to zero:  users experience zero downtime when the app upgrades.</p>
+
+					<p>In reality, that is impossible.  We instead settle for <strong>approaching</strong> zero.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li class="active">Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/time.jpg" data-background-opacity="0.2">
+					<h3>Know Your Enemy:  Downtime</h3>
+					
+					<p>If your website has office hours, downtime is no problem:  you deploy during off hours occasionally.</p>
+
+					<p>Most websites aren't like that anymore.  Instead, users expect 24/7 uptime.  For deployments, users can accept occasional degraded experiences (especially around performance) but otherwise want to get on with their lives.  We need an approach to keep them happy while pushing out code changes at a reasonable time.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/muay-thai.jpg" data-background-opacity="0.2">
+					<h3>Know Your Enemy:  Downtime</h3>
+					
+					<div class='container'>
+						<div class='col'>
+							<p><strong>Downtime</strong> is any time users are unable to access the resources they need in your product.</p>
+						</div>
+						<div class='col'>
+							<p>Reasons for downtime:</p>
+							<ul>
+								<li>Hardware failures</li>
+								<li>Application down due to deployment</li>
+								<li>Network / routing issues</li>
+								<li>Locks on resources</li>
+								<li>Persistent timeouts due to performance issues</li>
+							</ul>
+						</div>
+					</div>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/spiral-staircase.jpg" data-background-opacity="0.2">
+					<h3>Why I Don't Believe in Zero Downtime</h3>
+					
+					<p>Table locks are downtime.  Thought experiment:  drop and rebuild the clustered columnstore index on a fact table and see if anyone complains.</p>
+
+					<p>Many operations take locks for short amounts of time.  With luck, nobody will notice these locks, but there are small batches of potential downtime here.  Users tend to be forgiving regarding these--it's easy enough to say "the network must be slow today"!</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/handshake.jpg" data-background-opacity="0.2">
+					<h3>The Benefits of Minimizing Downtime</h3>
+					
+					<p><strong>Users</strong> can get their work done with fewer interruptions.</p>
+
+					<p><strong>Developers</strong> can deploy smaller changes faster, giving end users fixes and improvements sooner.</p>
+
+					<p><strong>Administrators</strong> can deploy when people are in the office and available.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li class="active">The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/blue-package.jpg" data-background-opacity="0.2">
+					<h3>The Flow</h3>
+					
+					<p>Our flow will be a modified <strong>blue-green deployment</strong> method.  We will have the following phases:</p>
+					
+					<ol>
+						<li>Database Pre-Release</li>
+						<li>Database Release</li>
+						<li>Application Release</li>
+						<li>Database Post-Release</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/fishing.jpg" data-background-opacity="0.2">
+					<h3>Database Pre-Release</h3>
+					
+					<p>Pre-release starts whenever you are ready for it.  Good things to do during pre-release are:</p>
+					
+					<ul>
+						<li>Scheduling things that will take a long time.</li>
+						<li>Making changes which need to happen before the rest of the process.</li>
+						<li>Phase 1 of a multi-step process.</li>
+					</ul>
+					
+					<p>Users should not notice that you are in database pre-release.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/rollercoaster.jpg" data-background-opacity="0.2">
+					<h3>Database Release</h3>
+					
+					<p>Database release often starts on a fixed schedule but can run several times a day.  We <strong>might</strong> see a degradation of services here.</p>
+
+					<p>During this phase, we push the majority of database changes.  Our database changes need to support the application release model.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Application Release Model</h3>
+					
+					<p>We will use the blue-green deployment model today.  We will show without loss of generality the variant in which the number of application servers is fixed.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Before the Release</h3>
+					
+					<img src="presentation/assets/image/code_phase1_blue.png" />
+					
+					<p>We have "old" code running on all servers.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Servers Down</h3>
+					
+					<img src="presentation/assets/image/code_phase2_bluegrey.png" />
+					
+					<p>We still have "old" code running on servers but some have gone down, leading to a potentially degraded experience.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>New Code</h3>
+					
+					<img src="presentation/assets/image/code_phase3_bluegreen.png" />
+					
+					<p>During this phase, we have old and new application code.  We need to support <strong>both</strong> at the same time.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>More Servers Down</h3>
+					
+					<img src="presentation/assets/image/code_phase4_greygreen.png" />
+					
+					<p>We have only new code but a potentially degraded experience.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>All Servers Up</h3>
+					
+					<img src="presentation/assets/image/code_phase5_green.png" />
+					
+					<p>Servers are back to normal, running new code.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/fireworks.jpg" data-background-opacity="0.2">
+					<h3>Database Post-Release</h3>
+					
+					<p>During this phase, we get to destroy stuff, removing unused columns, dropping obsolete procedures or tables, deleting old data, etc.</p>
+
+					<p>Database post-release can go on as long as needed and customers should not notice a thing.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li class="active">Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/engineering.jpg" data-background-opacity="0.2">
+					<h3>Key Assumptions</h3>
+					
+					<ol>
+						<li>You have code in source control</li>
+						<li>You have an automated release process</li>
+						<li>You have a continuous integration pipeline</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/engineering.jpg" data-background-opacity="0.2">
+					<h3>Source Control</h3>
+					
+					<p>Source control is not mandatory but it is <strong>really</strong> helpful.  Source control is a safety net and allows you to revert code quickly in event of failure.</p>
+
+					<p>Git is the most popular source control system, but use whatever you want.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/traffic-light.jpg" data-background-opacity="0.2">
+					<h3>Automated Release Process</h3>
+					
+					<p><strong>That</strong> you have something is more important than the tool itself.  Use Azure DevOps, Octopus Deploy, Jenkins, a hand-built solution, or whatever works.</p>
+
+					<p>Automated release processes ensure all scripts go and that each release is consistent.  Humans make a lot of replication mistakes; let computers do that work.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/intersection.jpg" data-background-opacity="0.2">
+					<h3>Continuous Integration Pipeline</h3>
+					
+					<p>With an automated release process, keep deploying to lower environments--you want as many tests of your deployment scripts as possible.  That way you won't have any nasty downtime-related surprises going to production, or errors if you need to re-run scripts.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/legend.jpg" data-background-opacity="0.2">
+					<h3>Simplification Measures</h3>
+					
+					<p>In addition to the key assumptions, we have a few tools for making life easier.</p>
+
+					<ol>
+						<li>Use Enterprise Edition</li>
+						<li>Use Read Committed Snapshot Isolation</li>
+						<li>Use Stored Procedures</li>
+						<li>Use Database Tests</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/skyline.jpg" data-background-opacity="0.2">
+					<h3>Use Enterprise Edition</h3>
+					
+					<p>Enterprise Edition allows you to do things you cannot do in Standard Edition, such as rebuilding indexes online and partitioning tables.  These can make deployments easier.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/hardware.jpg" data-background-opacity="0.2">
+					<h3>Use RCSI</h3>
+					
+					<p>Read Committed Snapshot Isolation limits the amount of blocking on tables.  If you can turn it on, do so.  This will let you write to tables without blocking readers.  Note that writers can still block writers with RCSI.</p>
+
+					<p>RCSI does increase tempdb usage, sometimes considerably.  Keep that in mind if you haven't turned it on yet.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/lab.jpg" data-background-opacity="0.2">
+					<h3>Use Stored Procedures</h3>
+					
+					<p>Stored procedures act as an interface between your application code and your database objects.  Stored procedures let us provide a consistent interface, letting us refactor database code and objects without the application knowing or caring.</p>
+
+					<p>Stored procedures also let you explicitly see backward compatibility:  you can (usually) know which of ProcedureV4 and ProcedureV3 is newer.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/magnifying-glass.jpg" data-background-opacity="0.2">
+					<h3>Use Database Tests</h3>
+					
+					<p>Database tests give you an extra dose of confidence that your refactoring will not break existing code.  This lets you experiment more without additional risk.</p>
+
+					<p>tSQLt is the most popular database test library out there, but it could be as simple as a series of NUnit tests which make stored procedure calls.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li class="active">Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/water-rocks.jpg" data-background-opacity="0.2">
+					<h3>Stored Procedure Changes</h3>
+					
+					<p>Scenarios covered:</p>
+
+					<ol>
+						<li>New stored procedure</li>
+						<li>Add new column to procedure</li>
+						<li>Remove column from procedure</li>
+						<li>Change input parameter</li>
+						<li>Change input parameter -- table type</li>
+						<li>Refactoring a procedure</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/demo.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Stored Procedure Recap</h3>
+					
+					<p>What follows are the phase and process for each scenario we have covered.  These are here for your reference.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### New Stored Procedure
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy new procedure|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add New Column to Procedure
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy procedure|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Remove Column from Procedure
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release||
+					|Code release|Deploy new calling code|
+					|Database post-release|Deploy altered procedure|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Change Input Parameter
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy new procedure version|
+					|Code release|Deploy new calling code|
+					|Database post-release|Drop old procedure version|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Change Input Parameter -- Table Type
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy new table type version|
+					||Deploy new procedure version|
+					|Code release|Deploy new calling code|
+					|Database post-release|Drop old procedure version|
+					||Drop old table type version|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Refactoring a Procedure
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy altered procedure|
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li class="active">Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/table-with-chalkboard.jpg" data-background-opacity="0.2">
+					<h3>Table Changes</h3>
+					
+					<p>Scenarios covered:</p>
+
+					<ol>
+						<li>Add a nullable column</li>
+						<li>Add a non-nullable column with a default constraint</li>
+						<li>Backfill a new column</li>
+						<li>Remove a column</li>
+						<li>Remove a column with a constraint</li>
+						<li>Extend VARCHAR column</li>
+						<li>Shrink VARCHAR column</li>
+						<li>Rename a table</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/demo.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Table Recap</h3>
+					
+					<p>What follows are the phase and process for each scenario we have covered.  These are here for your reference.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add a Nullable Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Alter table|
+					||Deploy altered procedures (optional)|
+					||Deploy versioned procedures (optional)|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release|Deprecate old versions of procedures (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add a Non-Nullable Column with a Default Constraint
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Alter table|
+					||Deploy altered procedures (optional)|
+					||Deploy versioned procedures (optional)|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release|Deprecate old versions of procedures (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Backfill a New Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Add new column|
+					||Create backfill process (and maybe temp index)|
+					||Create trigger|
+					|Database release|Deploy temporary versioned procedures (optional)|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release|Deploy altered procedures (optional)|
+					||Deploy final versioned procedures (optional)|
+					||Drop old versions (optional)|
+					||Drop temporary index|
+					||Drop trigger|
+					||Drop backfill process|
+					||Drop old column|
+					||Rename new column (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Remove a Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy new versions of procedures|
+					|Code release|Deploy calling code|
+					|Database post-release|Deploy altered procedures|
+					||Drop old versions of procedures|
+					||Drop column|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Remove a Column with a Constraint
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Deploy new versions of procedures|
+					|Code release|Deploy calling code|
+					|Database post-release|Deploy altered procedures|
+					||Drop old versions of procedures|
+					||Drop constraint|
+					||Drop column|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Extend a VARCHAR Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Alter table|
+					||Deploy altered procedures (optional)|
+					||Deploy versioned procedures (optional)|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release|Deprecate old versions of procedures (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Shrink a VARCHAR Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Add new column|
+					||Create backfill process (and maybe temp index)|
+					||Create trigger|
+					|Database release|Deploy temporary versioned procedures (optional)|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release|Deploy altered procedures (optional)|
+					||Deploy final versioned procedures (optional)|
+					||Drop old versions (optional)|
+					||Drop temporary index|
+					||Drop trigger|
+					||Drop backfill process|
+					||Drop old column|
+					||Rename new column (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Rename a Table
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Rename table|
+					||Create temporary view|
+					||Deploy altered procedures|
+					|Code release|Deploy calling code (optional)|
+					|Database post-release|Deprecate old versions of procedures (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li class="active">Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/arrow.jpg" data-background-opacity="0.2">
+					<h3>Index Changes</h3>
+					
+					<p>Scenarios covered:</p>
+
+					<ol>
+						<li>Add a non-clustered index</li>
+						<li>Drop a non-clustered index</li>
+						<li>Create a clustered index</li>
+						<li>Change a clustered index which is not the primary key</li>
+						<li>Separate out a combination primary key and clustered index</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/demo.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Index Recap</h3>
+					
+					<p>What follows are the phase and process for each scenario we have covered.  These are here for your reference.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add a Non-Clustered Index
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Create index|
+					|Code release||
+					|Database post-release|Drop old index (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Drop a Non-Clustered Index
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release||
+					|Code release||
+					|Database post-release|Drop old index (optional)|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add a Clustered Index
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Create index|
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Change a Non-Primary Key Clustered Index
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Drop index (if necessary)|
+					||Create index (preferably drop_existing)|
+					|Database release||
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Separate Out a Primary Key + Clustered Index
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Drop old primary key and add new in a single transaction|
+					||Create new clustered index in a separate transaction|
+					|Database release||
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li class="active">Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/chain.jpg" data-background-opacity="0.2">
+					<h3>Constraint Changes</h3>
+					
+					<p>Scenarios covered:</p>
+
+					<ol>
+						<li>Add a default constraint</li>
+						<li>Change a default constraint</li>
+						<li>Add a unique key constraint</li>
+						<li>Add other constraints</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/demo.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Constraints Recap</h3>
+					
+					<p>What follows are the phase and process for each scenario we have covered.  These are here for your reference.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add a Default Constraint
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Create constraint|
+					|Database release||
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Change a Default Constraint
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Drop old constraint and create new constraint in a transaction|
+					|Database release||
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add a Unique Key Constraint
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Create constraint or unique index|
+					|Database release||
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add Other Constraints
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Create new table with constraint|
+					||Create temporary trigger|
+					||Create backfill process|
+					||Disable backfill process|
+					|Database release|Rename tables|
+					||Drop temporary trigger|
+					|Code release||
+					|Database post-release|Drop old table|
+					||Drop backfill process|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li class="active">Identity Changes</li>
+						<li>A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/eye.jpg" data-background-opacity="0.2">
+					<h3>Identity Changes</h3>
+					
+					<p>Scenarios covered:</p>
+
+					<ol>
+						<li>Add an identity column to an existing table</li>
+						<li>Reseed an identity column</li>
+						<li>Change the data type of an identity column</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/demo.jpg" data-background-opacity="0.2">
+					<h3>Demo Time</h3>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Identity Recap</h3>
+					
+					<p>What follows are the phase and process for each scenario we have covered.  These are here for your reference.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Add an Identity Column to an Existing Table
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Create new table|
+					|Database release|Partition switch|
+					||Rename tables|
+					|Code release||
+					|Database post-release|Drop old table|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Reseed an Identity Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release||
+					|Database release|Reseed value|
+					|Code release||
+					|Database post-release||
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/storm-clouds.jpg" data-background-opacity="0.2" data-markdown>
+					<textarea data-template>
+					### Change the Data Type of an Identity Column
+					
+					|Phase|Process|
+					|-----|-------|
+					|Database pre-release|Create new table with data type|
+					||Create temporary trigger|
+					||Create backfill process|
+					||Disable backfill process|
+					|Database release|Rename tables|
+					||Drop temporary trigger|
+					|Code release||
+					|Database post-release|Drop old table|
+					||Drop backfill process|
+					</textarea>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Agenda</h3>
+					
+					<ol>
+						<li>Our Enemy the Downtime</li>
+						<li>The Flow</li>
+						<li>Making Life Simpler</li>
+						<li>Stored Procedure Changes</li>
+						<li>Table Changes</li>
+						<li>Index Changes</li>
+						<li>Constraint Changes</li>
+						<li>Identity Changes</li>
+						<li class="active">A Case Study</li>
+					</ol>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/easel.jpg" data-background-opacity="0.2">
+					<h3>A Case Study</h3>
+					
+					<p>As a Database Engineer, I was responsible for approximately 200 tables and 800 stored procedures.</p>
+
+					<p>Most of these tables had a column called <code>ClientID</code> as part of the primary key.  The only problem?  It needs to be called <code>ProfileID</code>.  Which means updating 150+ tables and 700+ stored procedures.  Without extended downtime.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/looking-glass.jpg" data-background-opacity="0.2">
+					<h3>The Scope</h3>
+					
+					<ul>
+						<li>Rename <code>ClientID</code> to <code>ProfileID</code> on 150 tables, including constraint and index names.</li>
+						<li>Drop 150 unused procedures and 20 unused tables.</li>
+						<li>Rename <code>ClientID</code> to <code>ProfileID</code> on 550+ procedures.  And refactor while we're in there.</li>
+						<li>Update SSIS packages to use <code>ProfileID</code> instead of <code>ClientID</code>.
+						<li>Convert ad hoc queries in code to stored procedures and make them use <code>ProfileID</code>.</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-1-starting.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/junk.jpg" data-background-opacity="0.2">
+					<h3>Pre-Pre-Release (Phase 1)</h3>
+					
+					<ul>
+						<li>Begin reformatting and refactoring procedures.</li>
+						<li>Look for unused procedures.  Search in plan and procedure cache, code base, SQL Agent jobs, SSIS packages, metadata tables, etc.  Eliminate broken objects.</li>
+						<li>Create lots and lots of database tests.</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/cluster.jpg" data-background-opacity="0.2">
+					<h3>Pre-Release Phase</h3>
+					
+					<ul>
+						<li>Add <code>ProfileID</code> as nullable INT on each table with <code>ClientID</code>.</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/background/nesting-pots.jpg" data-background-opacity="0.2">
+					<h3>Database Release (Phase 2a)</h3>
+					
+					<ul>
+						<li>Release temporary procedures which take <code>@ClientID</code> and <code>@ProfileID</code> as parameters.</li>
+						<li>Scoop out logic from app-level procedures and put into temp procedures.  Run <code>ISNULL(@ProfileID, @ClientID)</code> checks on these.</li>
+						<li>Turn app-level procedures into shells which call temp procedures.</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-2a-add-profileid.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/connections.jpg" data-background-opacity="0.2">
+					<h3>Database Release (Phase 2b)</h3>
+					
+					<p>Change references in views and functions to return <code>ISNULL(ProfileID, ClientID)</code> instead of <code>ClientID</code>.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-2b-modify-views.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/greenscreen.jpg" data-background-opacity="0.2">
+					<h3>Database Release (Phase 2c)</h3>
+					
+					<p>Update non-application SQL code to run <code>ISNULL(ProfileID, ClientID)</code> checks.  This includes:</p>
+					
+					<ul>
+						<li>SQL Agent jobs</li>
+						<li>Triggers</li>
+						<li>Non-application stored procedures</li>
+						<li>SSIS packages</li>
+						<li>Other processes</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-2c-update-non-code.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/telephones.jpg" data-background-opacity="0.2">
+					<h3>Database Release (Phase 3)</h3>
+					
+					<p>Swap <code>ProfileID</code> and <code>ClientID</code>:</p>
+					
+					<ul>
+						<li>Rename <code>ProfileID</code> to <code>ProfileID2</code></li>
+						<li>Rename <code>ClientID</code> to <code>ProfileID</code></li>
+						<li>Add new <code>ClientID</code> nullable integer</li>
+						<li>Drop <code>ProfileID2</code></li>
+					</ul>
+					
+					<p>Then rename all constraints and indexes using <code>sp_rename</code>.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-3-swap-profileid.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/lego.jpg" data-background-opacity="0.2">
+					<h3>Database Post-Release (Phase 4)</h3>
+					
+					<p>Deploy final versions of "temp" application code procedures:  replace <code>@ClientID</code> with <code>@ProfileID</code> in app procedures and change <code>ISNULL(ProfileID, ClientID)</code> to <code>ProfileID</code>.</p>
+
+					<p>Return <code>ProfileID</code> column on procedures as well as <code>ProfileID AS ClientID</code>.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-4-new-procedures.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/flexible.jpg" data-background-opacity="0.2">
+					<h3>Database Post-Release (Phase 5)</h3>
+					
+					<p>Update non-application SQL code to change <code>ISNULL(ProfileID, ClientID)</code> to <code>ProfileID</code>.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-5-update-code.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/flow.jpg" data-background-opacity="0.2">
+					<h3>Database Post-Release (Phase 6)</h3>
+					
+					<p>Update views and functions to change <code>ISNULL(ProfileID, ClientID)</code> checks to <code>ProfileID</code>.</p>
+
+					<p>Include <code>ProfileID</code> and <code>ProfileID AS ClientID</code> columns in result sets.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-6-updated-views-and-functions.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/excavator.jpg" data-background-opacity="0.2">
+					<h3>Database Post-Release (Phase 7)</h3>
+					
+					<ul>
+						<li>Drop the empty ClientID column on each table.</li>
+						<li>Deprecate obsolete objects.</li>
+					</ul>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-7-drop-clientid.png" />
+				</section>
+				
+				<section data-background-image="presentation/assets/background/growth.jpg" data-background-opacity="0.2">
+					<h3>Post- Database Post-Release (Phase 8)</h3>
+					
+					<p>Update application code over time to call new procedures instead of old code-facing procedures and change <code>ClientID</code> code references to <code>ProfileID</code>.  Deprecate old procedures over time.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<img src="presentation/assets/image/phase-8-cleanup.png" />
+				</section>
+
+				<section data-background-image="presentation/assets/background/wrappingup.jpg" data-background-opacity="0.2">
+					<h3>Wrapping Up</h3>
+					
+					<p>"Zero" downtime database deployments aren't for every company.  If you have the ability to take downtime windows, your deployments are significantly easier.</p>
+
+					<p>Still, if you do need these tools, it is good to know what you can safely do without blocking your customers.</p>
+				</section>
+				
+				<section data-background-image="presentation/assets/image/Bubbles.jpg" data-background-opacity="0.4">
+					<h3>Wrapping Up</h3>
+					
+					<p>
+						To learn more, go here:
+						<br />
+						<a href="https://csmore.info/on/zdt">https://csmore.info/on/zdt</a>
+					</p>
+					<br />
+					<p>
+						And for help, contact me:
+						<br />
+						<a href="mailto:feasel@catallaxyservices.com">feasel@catallaxyservices.com</a> | <a href="https://www.twitter.com/feaselkl">@feaselkl</a>
+					</p>
+					<br />
+					<p>
+						Catallaxy Services consulting:
+						<br />
+						<a href="https://csmore.info/contact">https://CSmore.info/on/contact</a>
+					</p>
+				</section>
+			</div>
+		</div>
+
+		<script src="../reveal.js/dist/reveal.js"></script>
+		<script src="../reveal.js/plugin/zoom/zoom.js"></script>
+		<script src="../reveal.js/plugin/notes/notes.js"></script>
+		<script src="../reveal.js/plugin/search/search.js"></script>
+		<script src="../reveal.js/plugin/markdown/markdown.js"></script>
+		<script src="../reveal.js/plugin/math/math.js"></script>
+		<script src="../reveal.js/plugin/menu/menu.js"></script>
+		<script src="../reveal.js/plugin/highlight/highlight.js"></script>
+		<script src="../reveal.js/plugin/chart/Chart.min.js"></script>
+		<script src="../reveal.js/plugin/chart/plugin.js"></script>
+		<script>
+			// More info about initialization & config:
+			// - https://revealjs.com/initialization/
+			// - https://revealjs.com/config/
+			Reveal.initialize({
+				width: '70%',
+				controls: true,
+				progress: true,
+				center: true,
+				hash: true,
+				transition: 'fade',
+				
+
+				// Learn about plugins: https://revealjs.com/plugins/
+				plugins: [ RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight, RevealMath, RevealMenu, RevealChart ]
+			});
+		</script>
+	</body>
+</html>
